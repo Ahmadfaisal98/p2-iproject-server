@@ -26,6 +26,7 @@ class LoginController {
         }
       })
       .catch((err) => {
+        console.log(err);
         next({ statusCode: 500 });
       });
   }

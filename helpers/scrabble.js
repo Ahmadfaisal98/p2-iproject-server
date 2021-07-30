@@ -16,7 +16,11 @@ function wordSetting(wordLong, totalWords) {
 function wordCheck(wordsBase, wordsInput) {
   let result = [];
   for (let i = 0; i < wordsBase.length; i++) {
-    if (wordsInput[i] === "" || wordsInput[i].length > wordsBase[i].length || wordsInput[i].length === 1) {
+    if (
+      wordsInput[i] === "" ||
+      wordsInput[i].length > wordsBase[i].length ||
+      wordsInput[i].length === 1
+    ) {
       result.push("Invalid Input");
     } else {
       let wordScan = "";
@@ -37,25 +41,48 @@ function wordCheck(wordsBase, wordsInput) {
       result.push(wordScan);
     }
   }
+  // console.log(result);
+
+  // let wordsBaseArray = [];
+  // let wordsInputArray = [];
+  // let wordsBaseLetter = {};
+  // let wordsInputLetter = {};
+
+  // for (let i = 0; i < wordsBase.length; i++) {
+  //   for (let j = 0; j < wordsBase[i].length; j++) {
+  //     if (!wordsBaseLetter[i][j]) {
+  //       wordsBaseLetter[i][j] = 1;
+  //     }
+  //     wordsBaseLetter[i[j]]++;
+  //   }
+  //   console.log(wordsBaseArray, "ini words base array");
+  //   wordsBaseArray.push(wordsBaseLetter);
+  // }
+
+  // console.log("masuk?");
 
   for (let i = 0; i < result.length; i++) {
-    if (result[i] !== "Invalid Input" && result[i].length !== wordsInput[i].length) {
+    if (
+      result[i] !== "Invalid Input" &&
+      result[i].length !== wordsInput[i].length
+    ) {
       result[i] = "Invalid Input";
     }
   }
+  // console.log(result, "ini result");
 
   return result;
 }
 
 function wordValue(wordResult) {
   // aturan point dari standar scrabble
-  let point1 = "aeilnorstu"; //AEILNORSTU
-  let point2 = "dg"; //DG
-  let point3 = "bcmp"; //BCMP
-  let point4 = "fhvwy"; //FHVWY
-  let point5 = "k"; //K
-  let point8 = "jx"; //JX
-  let point10 = "qz"; //QZ
+  let point1 = "AEILNORSTU"; //AEILNORSTU // aeilnorstu
+  let point2 = "DG"; // dg
+  let point3 = "BCMP"; // bcmp
+  let point4 = "FHVWY"; // fhvwy
+  let point5 = "K"; //k
+  let point8 = "JX"; // jx
+  let point10 = "QZ"; //qz
 
   let result1 = [];
   let result2 = [];
@@ -145,7 +172,20 @@ function wordValue(wordResult) {
 
   for (let i = 0; i < wordResult.length; i++) {
     let totalValue = 0;
-    totalValue = resultValue1[i] + resultValue2[i] + resultValue3[i] + resultValue4[i] + resultValue5[i] + resultValue8[i] + resultValue10[i];
+    if (
+      wordResult[i] !== "Invalid Input" &&
+      wordResult[i] !== "Already Exists" &&
+      wordResult[i] !== "Not Found"
+    ) {
+      totalValue =
+        resultValue1[i] +
+        resultValue2[i] +
+        resultValue3[i] +
+        resultValue4[i] +
+        resultValue5[i] +
+        resultValue8[i] +
+        resultValue10[i];
+    }
     totalWordValue.push(totalValue);
   }
 

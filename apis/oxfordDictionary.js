@@ -6,9 +6,22 @@ const axios = require("axios");
 const { wordCheck } = require("../helpers/scrabble");
 
 function oxfordDictionary(req, res, next) {
-  console.log(req.body, "udah sampai sini?");
   let { wordInput, wordBase } = req.body;
   let words = wordCheck(wordBase, wordInput);
+  req.wordAfterCheck = words;
+
+  let wordJustResult = [];
+  words.forEach((word) => {
+    if (word !== "Invalid Input") {
+      wordJustResult.push(word);
+    }
+  });
+
+  console.log("masuk sini?");
+  if (!wordJustResult.length) {
+    next();
+  }
+  req.wordJustResult = wordJustResult;
 
   // const fields = "pronunciations";
   const strictMatch = "true";
@@ -16,10 +29,14 @@ function oxfordDictionary(req, res, next) {
   const app_key = process.env.OXFORD_DICTIONARY_KEY; //process.env.OXFORD_DICTIONARY_KEY
 
   let promises = [];
-  words.forEach((word) => {
+  wordJustResult.forEach((word) => {
     promises.push(
       axios({
-        url: "https://od-api.oxforddictionaries.com/api/v2/entries/en-gb/" + word.toLowerCase() + "?strictMatch=" + strictMatch,
+        url:
+          "https://od-api.oxforddictionaries.com/api/v2/entries/en-gb/" +
+          word.toLowerCase() +
+          "?strictMatch=" +
+          strictMatch,
         port: "443",
         method: "GET",
         headers: {
@@ -31,6 +48,7 @@ function oxfordDictionary(req, res, next) {
   });
   Promise.allSettled(promises).then((responses) => {
     req.oxfordDictionary = responses;
+    console.log(req.oxfordDictionary);
     next();
   });
 }
